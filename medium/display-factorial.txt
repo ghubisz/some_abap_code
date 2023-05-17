@@ -1,0 +1,19 @@
+"Program that prompts the user to enter a number and then displays the factorial of that number.
+
+REPORT ztest.
+
+PARAMETERS p_num TYPE i.
+
+DATA: lv_factorial TYPE i.
+	lv_result TYPE i.
+	
+lv_factorial = p_num.
+lv_result = 1.
+
+DO lv_factorial TIMES.
+	lv_result = lv_result * lv_factorial.
+	lv_facorial = lv_factorial - 1.
+
+ENDO.
+
+WRITE: / 'The factorial of', p_num, 'is', lv_result.

@@ -1,0 +1,13 @@
+"Program that prompts the user to enter three number and then displays the average of those numbers.
+
+REPORT ztest.
+
+PARAMETERS: p_num1 TYPE i.
+	    p_num2 TYPE i.
+	    p_num3 TYPE i.
+	   
+DATA: lv_average TYPE f.
+
+lv_average = (p_num1 + p_num2 + p_num3) / 3.
+
+WRITE: / 'The average of the three numbers is' , lv_average.

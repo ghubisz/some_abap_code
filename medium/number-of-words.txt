@@ -1,0 +1,14 @@
+"Program that prompts the user to enter a sentence and then displays the number of words in that sentence.
+
+REPORT ztest.
+
+PARAMETERS p_sentence TYPE string.
+
+DATA: lt_words TYPE TABLE OF string,
+	lv_word_count TYPE i.
+	
+SPLIT p_sentence AT space INTO TABLE lt_words.
+
+lv_words_count = lines(lt_words).
+
+WRITE: / 'The sentence contains', lv_word_count, 'words.'.

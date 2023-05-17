@@ -1,0 +1,14 @@
+"Program that prompts the user to enter a string and then displays the reverse of that string.
+
+REPORT ztest.
+
+PARAMETERS p_string TYPE string.
+
+DATA: lv_reversed_string TYPE string.
+
+DO strlen(p_string) TIMES.
+	lv_reversed_string = lv_reversed_string && p_string+sy-index(1).
+	
+ENDDO.
+
+WRITE: / 'The reversed string is', lv_reversed_string.

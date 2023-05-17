@@ -1,0 +1,26 @@
+"Program that prompts the user to enter a number and then displays whether it is a prime number or not.
+
+REPORT ztest.
+
+PARAMETERS p_num TYPE i.
+
+DATA: lv_prime TYPE abap_bool,
+	lv_divisor TYPE i.
+	
+lv_prime = abap_true.
+lv_divisor = 2.
+
+DO lv_divisor -1 TIMES.
+	IF p_num MOD lv_divisor = 0.
+		lv_prime = abap_false.
+		EXIT.
+	ENDIF.
+	lv_divisor = lv_divisor +1.
+
+ENDDO.
+
+IF lv_prime = abap_true.
+	WRITE: / p_num, 'is a prime number.'.
+ELSE.
+	WRITE: / p_num, 'is not a prime number.'.
+ENDIF.

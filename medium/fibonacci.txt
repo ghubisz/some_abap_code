@@ -1,0 +1,19 @@
+"Program that prompts the user to enter a number and then displays the Fibonacci sequence up to that number.
+
+REPORT ztest.
+
+PARAMETERS p_num TYPE i.
+
+DATA: lv_fibonacci TYPE i,
+	lv_previous TYPE i VALUE 0,
+	lv_current TYPE i VALUE 1.
+	
+WRITE: / lv_previous.
+WRITE: / lv_current.
+
+DO p_num-2 TIMES.
+	lv_fibonacci = lv_preious + lv_current.
+	WRITE: / lv_fibonacci.
+	lv_previous = lv_current.
+	lv_current = lv_fibonacci.
+ENDDO.

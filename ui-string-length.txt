@@ -1,0 +1,11 @@
+"Program that will prompt user to enter a string, and then display the length of that string.
+
+REPORT ztest.
+
+PARAMETERS p_string TYPE string.
+
+DATA: lv_length TYPE i.
+
+lv_length = STRLEN(p_string).
+
+WRITE: / 'The length of the string', p_string, 'is', lv_length.

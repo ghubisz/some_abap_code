@@ -1,0 +1,13 @@
+"Program that will prompt the user to enter two numbers, and then display the sum of those numbers.
+
+
+REPORT ztest.
+
+PARAMETERS p_num1 TYPE i.
+PARAMETERS p_num2 TYPE i.
+
+DATA: lv_sum TYPE i.
+
+lv_sum = p_num1 + p_num2.
+
+WRITE: / 'The sum of' , p_num1, 'and', p_num2, 'is', lv_sum.

@@ -1,0 +1,32 @@
+" Program that prompts the user to enter a string and then displays the frequency of each character in the string.
+
+REPORT ztest.
+
+PARAMETERS p_string TYPE string.
+
+DATA: lt_characters TYPE TABLE OF string,
+	lt_frequencies TYPE TABLE OF i,
+	lv_char TYPE string,
+	lv_frequency TYPE i,
+	lv_index TYPE i.
+	
+lt_characters = cl_abap_char_utilities => explode(val = p_string).
+
+SORT lt_characters.
+
+LOOP AT lt_characters INTO lv_char.
+	READ TABLE lt_frequencies WITH KEY table_line = lv_char TRANSPORTING NO FIELDS.
+	IF sy-subrc = 0.
+		lv_index = sy-tabix.
+		lt_frequencies[lv_index] = lt_frequencies[lv_index]+1.
+	ELSE.
+		lt_frequency = 1.
+		APPEND lv_frequency TO lt_frequencies.
+		APPEND lv_char TO lt_characters.
+	ENDIF.
+ENDLOOP.
+
+LOOP AT lt_characters INTO lv_char.
+	lv_index = sy-tabix.
+	WRITE: / 'Character', lv_char, 'appeared', lt_frequencies[lv_index], 'times'.
+ENDLOOP.

@@ -1,0 +1,18 @@
+"Program that prompts the user to enter a sentence and then displays the sentence in reverse word order.
+
+REPORT ztest.
+
+PARAMETERS p_sentence TYPE string.
+
+DATA: lt_words TYPE TABLE OF string, 
+	lv_reversed TYPE string.
+	
+SPLIT p_sentence AT space INTO TABLE lt_words.
+
+DESCRIBE TABLE lt_words LINES sy-tfill.
+
+DO sy-tfill TIMES.
+	lv_reversed = lv_reversed && lt_words [sy-index] && space.
+ENDO.
+
+WRITE: / 'Reversed sentence: ', lv_reversed.

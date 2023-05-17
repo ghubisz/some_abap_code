@@ -1,0 +1,17 @@
+"Program that prompts the user to enter a string and then displays the reverse of each word in the string.
+
+REPORT ztest.
+
+PARAMETERS p_string TYPE string.
+
+DATA: lt_words TYPE TABLE OF string,
+	lt_word TYPE string.
+	
+SPLIT p_string AT space INTO TABLE lt_words.
+
+WRITE: / 'Reversed words: '.
+
+LOOP AT lt_words INTO lv_word.
+	WRITE REVERSE lv_word.
+	
+ENDLOOP.

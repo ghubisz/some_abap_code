@@ -1,0 +1,34 @@
+"Class called 'Circle' with attribute 'radius'. Include methods to calculate the area and circumference of the circle.
+
+CLASS Circle DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_radius TYPE i,
+			calculateArea RETURNING VALUE (rv_area) TYPE f,
+			calculateCircumference RETURNING VALUE (rv_circumference) TYPE f.
+		PRIVATE SECTION.
+			DATA:
+				radius TYPE i.
+ENDCLASS.
+
+CLASS Circle IMPLEMENTATION.
+	METHOD constructor.
+		radius = iv_radius.
+	ENDMETHOD.
+	
+	METHOD calculateArea.
+		rv_area = CONV #(radius ** 2 * 3.14159).
+	ENDMETHOD.
+	
+	METHOD calculateCircumference.
+		rv_circumference = CONV #(2 * radius * 3.14159).
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: circle TYPE REF TO Circle.
+CREATE OBJECT circle EXPORTING iv_radius = 5.
+
+DATA(area, circumference) = circle -> calculateArea().
+WRITE: / ' Area: ', area.
+DATA (area, circumference) = circle -> calculateCircumference ().
+WRITE: / 'Circumference: ', circumference.

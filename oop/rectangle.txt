@@ -1,0 +1,36 @@
+"Class called "Rectangle" with attributes 'length' and 'width'. Include methods to calculate the area and perimeter of the rectangle.
+
+CLASS Rectangle DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_length TYPE i iv_width TYPE i,
+			calculateArea RETURNING VALUE (rv_area) TYPE i,
+			calculatePerimeter RETURNING VALUE (rv_perimeter) TYPE i.
+	PRIVATE SECTION.
+		DATA:
+			length TYPE i,
+			width TYPE i.
+ENDCLASS.
+
+CLASS Rectangle IMPLEMENTATION.
+	METHOD constructor.
+		length = iv_length,
+		width = iv_width.
+	ENDMETHOD.
+	
+	METHOD calculateArea.
+		rv_area = length * width.
+	ENDMETHOD.
+	
+	METHOD calculatePerimeter.
+		rv_perimeter = 2 *(length + width).
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: rect TYPE REF TO Rectangle.
+CREATE OBJECT rect EXPORTING iv_length = 5 iv_width = 3.
+
+DATA (area, perimeter) = rect ->calculateArea().
+WRITE: / 'Area: ', area.
+DATA (area, perimeter) = rect ->calculatePerimeter().
+WRITE: / 'Perimeter: ', perimeter.

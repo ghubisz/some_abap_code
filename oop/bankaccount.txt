@@ -1,0 +1,48 @@
+"Class called 'BankAccount' with attributes 'accountNumber', 'balance', and 'ownerName'. Include methods to deposit and withdraw money from the account.
+
+CLASS BankAccount DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_accountNumber TYPE string iv_ownerName TYPE string,
+			deposit IMPORTING iv_amount TYPE i,
+			withdraw IMPORTING iv_amount TYPE i,
+			displayBalance.
+	PRIVATE SECTION.
+		DATA:
+			accountNumber TYPE string.
+			balance TYPE i,
+			ownerName TYPE string.
+ENDCLASS.
+
+CLASS BankAccount IMPLEMENTATION.
+	METHOD constructor.
+		accountNumber = iv_accountNumber.
+		ownerName = iv_ownerName.
+	ENDMETHOD.
+	
+	METHOD deposit.
+		balance = balance + iv_amount.
+	ENDMETHOD.
+	
+	METHOD withdraw.
+		IF balance >= iv_amount.
+			balance = balance - iv_amount.
+			
+		ELSE.
+			WRITE: /'Insufficient balance.'.
+		ENDIF.
+	ENDMETHOD.
+	
+	METHOD displayBalance.
+		WRITE: /'Account Number: ', accountNumber.
+		WRITE: /'Owner: ', ownerName.
+		WRITE: /'Balance: ', balance.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: acct TYPE REF TO BankAccount.
+CREATE OBJECT acct EXPORTING iv_accountNumber = '12345' iv_ownerName = 'John Doe'.
+
+acct -> deposit(iv_amount = 500).
+acct -> withdraw (iv_amount = 200).
+acct -> displayBalance().

@@ -1,0 +1,45 @@
+"Class called 'Person' with attributes 'name', 'age' and 'gender'. Include methods to display the person's information and calculate their retairement age.
+
+CLASS Person DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_age TYPE i iv_gender TYPE string,
+			displayInformation,
+			calculateRetirementAge RETURNING VALUE (rv_retirementAge) TYPE i.
+		PRIVATE SECTION.
+			DATA:
+				name TYPE string,
+				age TYPE i,
+				gender TYPE string.
+ENDCLASS.
+
+CLASS Person IMPLEMENTATION.
+	METHOD constructor.
+		name = iv_name.
+		age = iv_age.
+		gender = iv_gender.
+	ENDMETHOD.
+	
+	METHOD displayInformation.
+		WRITE: / 'Name: ', name.
+		WRITE: / 'Age: ', age.
+		WRITE: / 'Gender: ', gender.
+	ENDMETHOD.
+		
+	METHOD calculateRetirementAge.
+		IF gender = 'Male'.
+			rv_retirementAge = 65 - age.
+		ELSEIF gender = 'Female'.
+			rv_retirementAge = 60 - age.
+		ELSE.
+			rv_retirementAge = 0.
+		ENDIF.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: person TYPE REF TO Person.
+CREATE OBJECT person EXPORTING iv_name = 'John Doe' iv_age = 40 iv_gender = 'Male'.
+
+person -> displayInformation().
+DATA (retirementAge) = person -> calculateRetirementAge().
+WRITE: / 'Retirement age: ', retirementAge.

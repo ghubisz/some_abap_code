@@ -1,0 +1,50 @@
+"Class called 'Car' with attributes 'make', 'model' and 'year'. Include methods to start the car, stop the car and display its details.
+
+CLASS Car DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_make TYPE string iv_model TYPE string iv_year TYPE i,
+			start,
+			stop,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA: 
+			make TYPE string,
+			model TYPE string,
+			year TYPE i,
+			isRunning TYPE abap_bool.
+ENDCLASS.
+
+CLASS Car IMPLEMENTATION.
+	METHOD constructor.
+		make = iv_make,
+		model = iv_model,
+		year = iv_year.
+	ENDMETHOD.
+	
+	METHOD start.
+		isRunning = abap_true.
+		WRITE: /'The car is started.'.
+	ENDMETHOD.
+	
+	METHOD stop.
+		isRunning = abap_false.
+		WRITE: /'The car is stopped.'.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Make: ', make.
+		WRITE: / 'Model: ', model.
+		WRITE: / 'Year: ', year.
+		WRITE: / 'Status: ', COND #(WHEN isRunning = abap_true THEN 'Running ELSE 'Stopped').
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: car TYPE REF TO Car.
+CREATE OBJECT car EXPORTING iv_make = 'Toyota' iv_model = 'Camry' iv_year = 2020.
+
+car -> displayDetails().
+car -> start().
+car -> displayDetails().
+car -> stop().
+car -> displayDetails().

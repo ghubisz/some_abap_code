@@ -1,0 +1,40 @@
+"Class called 'Employee' with attributes 'name', 'age' and 'salary'. Include methods to display employee details and give a salary increment.
+
+CLASS Employee DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_age TYPE i iv_salary TYPE i,
+			displayDetails,
+			giveSalaryIncrement IMPORTING iv_increment TYPE i.
+		PRIVATE SECTION.
+			DATA:
+				name TYPE string,
+				age TYPE i,
+				salary TYPE i.
+ENDCLASS.
+
+CLASS Employee IMPLEMENTATION.
+	METHOD constructor.
+		name = iv_name.
+		age = iv_age.
+		salary = iv_salary.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: /'Name: ', name.
+		WRITE: /'Age: ', age.
+		WRITE: /'Salary: ', salary.
+	ENDMETHOD.
+	
+	METHOD giveSalaryIncrement.
+		salary = salary + iv_increment.
+		WRITE: /'Salary increment of', iv_increment, 'applied.'.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: emp TYPE REF TO Employee.
+CREATE OBJECT emp EMPORTING iv_name = 'John Doe' iv_age = 30 iv_salary = 5000.
+
+emp -> displayDetails().
+emp -> giveSalaryIncrement(iv_increment = 1000).
+emp -> displayDetails().

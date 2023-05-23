@@ -1,0 +1,100 @@
+Advanced calculator class that supports basic arithmetic operations (addition, substraction, multiplication and division) as well as additional operations such as square root, power and factorial. Implement the calculator class using OOP principles and include appropriate exception handling.
+
+CLASS AdvancedCalculator DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor,
+			add IMPORTING iv_number1 TYPE f iv_number2 TYPE f,
+			substract IMPORTING iv_number1 TYPE f iv_number2 TYPE f,
+			multiply IMPORTING iv_number1 TYPE f iv_number2 TYPE f,
+			divide IMPORTING iv_number1 TYPE f iv_number2 TYPE f
+				RAISING divide_by_zero,
+			squareRoot IMPORTING iv_number TYPE f
+				RAISING invalid_input,
+			power IMPORTING iv_number TYPE f iv_exponent TYPE i,
+			factorial IMPORTING iv_number TYPE i
+				RAISING invalid_input.
+	PRIVATE SECTION.
+		DATA:
+			result TYPE f.
+ENDCLASS.
+
+CLASS AdvancedCalculator IMPLEMENTATION.
+	METHOD constructor.
+		result = 0.
+	ENDMETHOD.
+	
+	METHOD add.
+		result = iv_number1+ iv_number2.
+	ENDMETHOD.
+	
+	METHOD substract.
+		result = iv_number1 - iv_number2.
+	ENDMETHOD.
+	
+	METHOD multiply.
+		result = iv_number1 * iv_number2.
+	ENDMETHOD.
+	
+	METHOD divide.
+		IF iv_number2 <> 0.
+			result = iv_number1 / iv_number2.
+		ELSE.
+			RAISE divide_by_zero.
+		ENDIF.
+	ENDMETHOD.
+	
+	METHOD squareRoot.
+		IF iv_number >= 0.
+			result = sqrt (iv_number).
+		ELSE.
+			RAISE invalid_input.
+		ENDIF.
+	ENDMETHOD.
+	
+	METHOD power.
+		result = iv_number ** iv_exponent.
+	ENDMETHOD.
+	
+	METHOD factorial.
+		IF iv_number >= 0.
+			result = 1.
+			DO iv_number TIMES.
+				result = result + sy-index.
+			ENDDO.
+		ELSE.
+			RAISE invalid_input.
+		ENDIF.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: calculator TYPE REF TO AdvancedCalculator.
+
+TRY.
+		CREATE OBJECT calculator.
+		calculator -> add (iv_number1 = 10 iv_number2 = 20).
+		WRITE: 'Addition Result: ', calculator -> result.
+		
+		calculator -> substract (iv_number1 = 50 iv_number2 = 20).
+		WRITE: 'Substraction result: ', calculator -> result.
+		
+		calculator -> multiply (iv_number1 = 5 iv_number2 = 6).
+		WRITE: 'Multiplication Result: ', calculator -> result.
+		
+		calculator -> divide (iv_number1 = 100 iv_number2 = 5).
+		WRITE: 'Division Result: ', calculator -> result.
+		
+		calculator -> squareRoot(iv_number = 25.0).
+		WRITE: 'Square Root Result: ', calculator -> result.
+		
+		calculator -> power (iv_number = 2.0 iv_exponent = 4).
+		WRITE: 'Power Result: ', calculator -> result.
+		
+		calculator -> factorial (iv_number = 5).
+		WRITE: 'Factorial Result: ', calculator -> result.
+	
+	CATCH divide_by_zero.
+		WRITE: /'Error: Division by zero is not allowed.'.
+	CATCH invalid_input.
+		WRITE: / 'Error: Invalid input provided.'.
+ENDTRY.

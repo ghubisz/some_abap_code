@@ -1,0 +1,105 @@
+Class hierarchy for an online marketplace. The hierarchy should include classes such as 'Product', 'Electronics', 'Clothing' and 'Book'. Implement methods to add products, search for products by category and calculate total sales.
+
+CLASS Product DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_price TYPE f,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			name TYPE string,
+			price TYPE f.
+ENDCLASS.
+
+CLASS Product IMPLEMENTATION.
+	METHOD constructor.
+		name = iv_name.
+		price = iv_price.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Name: ', name.
+		WRITE: / 'Price: ', price.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Electronics DEFINITION INHERITING FROM Product.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_price TYPE f iv_brand TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			brand TYPE string.
+ENDCLASS.
+
+CLASS Electronics IMPLEMENTATION.
+	METHOD constructor.
+		super ->constructor (iv_name = iv_name iv_price = iv_price).
+		brand = iv_brand.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Brand: ', brand.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Clothing DEFINITION INHERITING FROM Product.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_price TYPE f iv_size TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			size TYPE string.
+ENDCLASS.
+
+CLASS Clothing IMPLEMENTATION.
+	METHOD constructor.
+		super -> constructor (iv_name = iv_name iv_price= iv_price).
+		size = iv_size.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Size: ', size.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Book DEFINITION INHERITING FROM Product.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_price TYPE f iv_author TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			author TYPE string.
+ENDCLASS.
+
+CLASS Book IMPLEMENTATION.
+	METHOD 	constructor.
+		super -> constructor (iv_name = iv_name iv_price = iv_price).
+		author = iv_author.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Author: ', author.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: products TYPE TABLE OF Product,
+			electronics TYPE REF TO Electronics,
+			clothing TYPE REF TO Clothing,
+			book TYPE REF TO Book.
+			
+CREATE OBJECT electronics EXPORTING iv_name = 'Smartphone' iv_price = 500.000 iv_brand = 'Apple'.
+CREATE OBJECT clothing EXPORTING iv_name = 'T-Shirt' iv_price = 20.00 iv_size = 'M'.
+CRETE OBJECT book EXPORTING iv_name = 'Harry Potter' iv_price = 15.00 iv_author = 'J.K. Rowling'.
+
+products = VALUE #((electronics ) (clothing) (book)).
+
+LOOP AT products INTO DATA (product).
+	product -> displayDetails().
+ENDLOOP.

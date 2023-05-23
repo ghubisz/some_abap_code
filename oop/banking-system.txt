@@ -1,0 +1,47 @@
+Class hierarchy  for a banking system. The hierarchy should include classes such as 'Bank', 'Branch', 'Customer' and 'Account'. Implement methods to perform operations such as opening an account, depositing money, withdrawing money and transferring funds between accounts.
+
+CLASS Bank DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_bankName TYPE string,
+			openBranch IMPORTING iv_branchName TYPE string,
+			openAccount IMPORTING iv_customerName TYPE string,
+			depositMoney IMPORTING iv_accountNumber TYPE string iv_amount TYPE i,
+			withdrawMoney IMPORTING iv_accountNumber TYPE string iv_amount TYPE i,
+			transferMoney IMPORTING iv_sourceAccountNumber TYPE string iv_destinationAccountNumber TYPE string iv_amount TYPE i.
+ENDCLASS.
+
+CLASS Bank IMPLEMENTATION.
+	METHOD constructor.
+		WRITE: / 'Welcome to ', iv_bankName, 'Bank!'.
+	ENDMETHOD.
+	
+	METHOD openBranch.
+		WRITE: / 'New branch ', iv_branchName, 'is opened.'.
+	ENDMETHOD.
+	
+	METHOD openAccount.
+		WRITE: / 'New account is opened for customer ', iv_customerName.
+	ENDMETHOD.
+	
+	METHOD depositMoney.
+		WRITE: / iv_amount, 'is deposited to account', iv_accountNumber.
+	ENDMETHOD.
+	
+	METHOD withdrawMoney.
+		WRITE: / iv_amount, 'is withdraw from account', iv_accountNumber.
+	ENDMETHOD.
+	
+	METHOD transferMoney.
+		WRITE: / iv_amount, 'is transferred from account', iv_sourceAccountNumber, 'to account', iv_destinationAccountNumber.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: bank TYPE REF TO Bank.
+CREATE OBJECT bank EXPORTING iv_bankName = 'MyBank'.
+
+bank -> openBranch (iv_branchName = 'Main Branch').
+bank -> openAccount (iv_customerName = 'John Doe').
+bank -> depositMoney (iv_accountNumber = '12345' iv_amount = 1000).
+bank -> withdrawMoney (iv_accountNumber = '12345' iv_amount = 500).
+bank -> transferMoney (iv_sourceAccountNumber = '12345' iv_destinationAccountNumber = '67890' iv_amount = 200).

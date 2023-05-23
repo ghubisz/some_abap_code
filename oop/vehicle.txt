@@ -1,0 +1,69 @@
+Class called 'Vehicle' with attributes 'make', 'model' and 'year'. Implement methods to calculate the fuel efficiency, display vehicle details and calculate the cost of a trip given the distance and fuel price. Create subclasses such as 'Car', 'Motorcycle' and 'Truck' that inherit from 'Vehicle' and provide their specific implementations.
+
+CLASS Vehicle DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_make TYPE string iv_model TYPE string iv_year TYPE i,
+			calculateFuelEfficiency RETURNING VALUE (rv_efficiency) TYPE f,
+			displayDetails,
+			calculateTripCost IMPORTING iv_distance TYPE i iv_fuelPrice TYPE f RETURNING VALUE (rv_cost) TYPE f.
+		
+	PRIVATE SECTION.
+		DATA:
+			make TYPE string,
+			model TYPE string,
+			year TYPE i.
+ENDCLASS.
+
+CLASS Vehicle IMPLEMENTATION.
+	METHOD constructor.
+		make = iv_make.
+		model = iv_model.
+		year = iv_year.
+	ENDMETHOD.
+	
+	METHOD calculateFuelEfficiency.
+		"Calculate fuel efficiency logic here @todo
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Make: ', make.
+		WRITE: / 'Model: ', model.
+		WRITE: / 'Year: ', year.
+	ENDMETHOD.
+	
+	METHOD calculateTripCost.
+		rv_cost = iv_distance * iv_fuelPrice.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Car DEFINITION INHERITING FROM Vehicle.
+	PUBLIC SECTION.
+		METHODS:
+			calculateFuelEfficiency OVERRIDE,
+			displayDetails OVERRIDE,
+			calculateTripCost OVERRIDE.
+	PRIVATE SECTION.
+		DATA:
+			carAttribute TYPE string.
+ENDCLASS.
+
+CLASS Car IMPLEMENTATION.
+	METHOD calculateFuelEfficiency.
+		"Calculate car-specific fuel efficiency logic here 
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Car-specific attribute: ', carAttribute.
+	ENDMETHOD.
+	
+	METHOD calculateTripCost.
+		"Calculate car-specific trip cost logic here
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: car TYPE REF TO Car.
+CREATE OBJECT car EXPORTING iv_make = 'Toyota' iv_model = 'Camry' iv_year = 2022.
+
+car -> displayDetails().

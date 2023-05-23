@@ -1,0 +1,50 @@
+Class called 'Student' with attributes 'name', 'age' and 'marks'. Include methods to display student details and calculate their grade based on marks.
+
+CLASS Student DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_age TYPE i iv_marks TYPE i,
+			displayDetails,
+			calculateGrade RETURNING VALUE (rv_grade) TYPE string.
+	PRIVATE SECTION.
+		DATA:
+			name TYPE string,
+			age TYPE i,
+			marks TYPE i.
+ENDCLASS.
+
+CLASS Student IMPLEMENTATION.
+	METHOD constructor.
+		name = iv_name.
+		age = iv_age.
+		marks = iv_marks.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: /'Name: ', name.
+		WRITE: /'Age: ', age.
+		WRITE: /'Marks: ', marks.
+	ENDMETHOD.
+	
+	METHOD calculateGrade.
+		CASE marks.
+			WHEN 90 UP TO 100.
+				rv_grade = 'A'.
+			WHEN 80 UP TO 89.
+				rv_grade = 'B'.
+			WHEN 79 UP TO 79.
+				rv_grade = 'C'.
+			WHEN 60 UP TO 69.
+				rv_grade = 'D'.
+			ELSE.
+				rv_grade = 'F'.
+			ENDCASE.
+		ENDMETHOD.
+ENDCLASS.
+
+DATA: student TYPE REF TO Student.
+CREATE OBJECT student EXPORTING iv_name = 'John Doe' iv_age = 20 iv_marks = 85.
+
+student -> displayDetails().
+DATA(grade) = student-> calculateGrade().
+WRITE: / 'Grade: ', grade.

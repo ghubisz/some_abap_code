@@ -1,0 +1,64 @@
+Class called 'Shape' with an abstract method 'calculateArea'. Create two subclasses 'Rectangle' and 'Circle', that inherit from 'Shape' and implement the 'calculateArea' method accordingly.
+
+CLASS Shape DEFINITION.
+	PUBLIC SECTION.
+		ABSTRACT METHODS:
+			calculateArea RETURNING VALUE (rv_area) TYPE f.
+ENDCLASS.
+
+CLASS Shape IMPLEMENTATION.
+	METHOD calculateArea.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Rectangle DEFINITION INHERITING FROM Shape.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_length TYPE i iv_width TYPE i,
+			calculateArea OVERRIDE.
+	PRIVATE SECTION.
+		DATA:
+			length TYPE i,
+			width TYPE i.
+ENDCLASS.
+
+CLASS Rectangle IMPLEMENTATION.
+	METHOD constructor.
+		length = iv_length.
+		width = iv_width.
+	ENDMETHOD.
+	
+	METHOD calculateArea.
+		rv_area = CONV #(length * width).
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Circle DEFINITION INHERITING FROM Shape.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_radius TYPE i,
+			calculateArea OVERRIDE.
+	PRIVATE SECTION.
+		DATA:
+			radius TYPE i.
+ENDCLASS.
+
+CLASS Circle IMPLEMENTATION.
+	METHOD constructor.
+		radius = iv_radius.
+	ENDMETHOD.
+	
+	METHOD calculateArea.
+		rv_area = CONV #(radius ** 2 * 3.14159).
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: shape TYPE REF TO Shape.
+CREATE OBJECT shape TYPE Rectangle EXPORTING iv_length = 5 iv_width = 3.
+DATA(area) = shape->calculateArea().
+WRITE: / 'Rectangle Area: ', area.
+
+CREATE OBJECT shape TYPE Circle EXPORTING iv_radius = 5.
+DATA(area) = shape->calculateArea().
+WRITE: / 'Circle Area: ', area.
+

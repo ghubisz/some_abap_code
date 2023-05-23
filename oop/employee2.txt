@@ -1,0 +1,35 @@
+Class called 'Employee' with attributes 'id', 'name' and 'departament'. Include methods to calculate the employee's salary and display their details.
+
+CLASS Employee DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_id TYPE string iv_name TYPE string iv_department TYPE string,
+			calculateSalary RETURNING VALUE (rv_value) TYPE i,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			id TYPE string,
+			name TYPE string,
+			department TYPE string.
+ENDCLASS.
+
+CLASS Employee IMPLEMENTATION.
+	METHOD constructor.
+		id = iv_id.
+		name = iv_name.
+		department = iv_department.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'ID: ', id.
+		WRITE: / 'Name: ', name.
+		WRITE: / 'Department: ', department.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: emp TYPE REF TO Employee.
+CREATE OBJECT emp EXPORTING iv_id = '1001' iv_name = 'John Doe' iv_department = 'IT'.
+
+emp->displayDetails().
+DATA(salary) = emp->calculateSalary().
+WRITE: / 'Salary: ', salary.

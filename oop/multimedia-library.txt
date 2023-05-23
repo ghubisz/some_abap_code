@@ -1,0 +1,80 @@
+Class hierarchy for a multimedia library. The hierarchy should include classes such as 'MediaItem', 'Movie' and 'AudioTrack'. Implement methods to add media items, search for media items and play media items.
+
+CLASS MediaItem DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_title TYPE string iv_duration TYPE i,
+			play.
+	PRIVATE SECTION.
+		DATA:
+			title TYPE string,
+			duration TYPE i.
+ENDCLASS.
+
+CLASS MediaItem IMPLEMENTATION.
+	METHOD constructor.
+		title = iv_title.
+		duration = iv_duration.
+	ENDMETHOD.
+	
+	METHOD play.
+		WRITE: / 'Playing: ', title.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Movie DEFINITION INHERITING FROM MediaItem.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_title TYPE string iv_duration TYPE i iv_director TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			director TYPE string.
+ENDCLASS.
+
+CLASS Movie IMPLEMENTATION.
+	METHOD constructor.
+		super -> constructor (iv_title = iv_title iv_duration = iv_duration).
+		director = iv_director.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> play().
+		WRITE: / 'Director: ', director.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS AudioTrack DEFINITION INHERITING FROM MediaItem.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_title TYPE string iv_duration TYPE i iv_artist TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA: 
+			artist TYPE string.
+ENDCLASS.
+
+CLASS AudioTrack IMPLEMENTATION.
+	METHOD constructor.
+		super -> constructor (iv_title = iv_title iv_duration = iv_duration).
+		artist = iv_artist.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super ->play ().
+		WRITE: / 'Artist: ', artist.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: mediaItems TYPE TABLE OF MediaItem,
+			movie TYPE REF TO Movie,
+			audioTrack TYPE REF TO AudioTrack.
+			
+CREATE OBJECT movie EXPORTING iv_title = 'The Avengers' iv_duration = 120 iv_director = 'Joss Whedon'.
+CREATE OBJECT audioTrack EXPORTING iv_title = 'Bohemian Rhapsody' iv_duration = 300 iv_artist = 'Queen'.
+
+mediaItems = VALUE #((movie) (audioTrack)).
+
+LOOP AT mediaItems INTO DATA (mediaItem).
+	mediaItem-> displayDetails().
+ENDLOOP.

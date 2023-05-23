@@ -1,0 +1,94 @@
+Class for a simple calculator that supports addition, subtraction, multiplication and division operations. Implement the calculator class using TDD approach.
+
+CLASS Calculator DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor,
+			add IMPORTING iv_number1 TYPE i iv_number2 TYPE i,
+			substract IMPOERING iv_number 1 TYPE i iv_number2 TYPE i,
+			multiply IMPORTING iv_number1 TYPE i iv_number2 TYPE i,
+			divide IMPORTING iv_number1 TYPE i iv_number 2 TYPE i
+				RAISING divide_by_zero.
+		PRIVATE SECTION.
+			DATA: 
+				result TYPE f.
+ENDCLASS.
+
+CLASS Calculator IMPLEMENTATION.
+	METHOD constructor.
+		result = 0.
+	ENDMETHOD.
+	
+	METHOD add.
+		result = iv_number1 + iv_number2.
+	ENDMETHOD.
+	
+	METHOD substract.
+		result = iv_number1 - iv_number2.
+	ENDMETHOD.
+	
+	METHOD multiply.
+		result = iv_number1 * iv_number2.
+	ENDMETHOD.
+	
+	METHOD divide.
+		IF iv_number2 <> 0.
+			result = iv_number1 / iv_number2.
+		ELSE.
+			RAISE divide_by_zero.
+		ENDIF.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS ltc_calculator_test DEFINITION FOR TESTING RISK LEVEL HARMLESS.
+	PRIVATE SECTION.
+		METHODS:
+			test_add,
+			test_substract,
+			test_multiply,
+			test_divide.
+ENDCLASS.
+
+CLASS ltc_calculator_test IMPLEMENTATION.
+	METHOD test_add.
+		DATA: calculator TYEP REF TO Calculator.
+		CREATE OBJECT calculator.
+		
+		calculator -> add(iv_number1 = 10 iv_number = 20).
+		cl_abap_unit_assert=>assert_equals(act = calculator -> result exp = 30).
+	ENDMETHOD.
+	
+	METHOD test_substract.
+		DATA: calculator TYPE REF TO Calculator.
+		CREATE OBJECT calculator.
+		
+		calculator -> substract (iv_number1 = 50 iv_number2 = 20).
+		cl_abap_unit_assert => assert_equals(act = calculator -> result exp = 30).
+	ENDMETHOD.
+	
+	METHOD test_multiply.
+		DATA: calculator TYPE REF TO Calculator.
+		CREATE OBJECT calculator.
+		
+		calculator -> multiply (iv_number 1 = 5 iv_number 2 = 6).
+		cl_abap_unit_assert => assert_equals (act= calculator -> result exp = 30).
+	ENDMETHOD.
+	
+	METHOD test_divide.
+		DATA: calculator TYPE REF TO Calculator.
+		CREATE OBJECT calculator.
+		
+		calculator -> divide (iv_number1 = 100 iv_number2 = 5).
+		cl_abap_unit_assert => assert_equals(act= calculator -> result exp =20).
+		
+		TRY.
+				calculator -> divide (iv_number1 = 10 iv_number2 = 0).
+				cl_abap_unit_assert => fail ('Expected divide_by_zero exception not raised.').
+			CATCH divide_by_zero.
+				cl_abap_unit_assert => assert_true (COND = abap_true).
+		ENDTRY.
+	ENDMETHOD.
+ENDCLASS.
+
+START-OF-SELECTION.
+	cl_abap_unit => run(testclass = ltc_calculator_test).

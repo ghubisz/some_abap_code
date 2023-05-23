@@ -1,0 +1,80 @@
+Class hierarchy for vehicle rental system. The hierarchy should include classes such as 'Vehicle', 'Car' and 'Motorcycle'. Implement methods to rent vehicles, calculate rental charges and display vehicle details.
+
+CLASS Vehicle DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_make TYPE string iv_model TYPE string,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			make TYPE string,
+			model TYPE string.
+ENDCLASS.
+
+CLASS Vehicle IMPLEMENTATION.
+	METHOD constructor.
+		make = iv_make.
+		model = iv_model.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Make: ', make.
+		WRITE: / 'Model: ', model.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Car DEFINITION INHERITING FROM Vehicle.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_make TYPE string iv_model TYPE string iv_seats TYPE i,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			seats TYPE i.
+ENDCLASS.
+
+CLASS Car IMPLEMENTATION.
+	METHOD constructor.
+		super ->constructor (iv_make = iv_make iv_model = iv_model).
+		seats = iv_seats.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Number of Seats: ', seats.
+	ENDMETHOD.
+ENDCLASS.
+
+CLASS Motorcycle DEFINITION INHERITING FROM Vehicle.
+		PUBLIC SECTION.
+			METHODS:
+				constructor IMPORTING iv_make TYPE string iv_model TYPE string iv_engineType TYPE string,
+				displayDetails.
+		PRIVATE SECTION.
+			DATA:
+				engineType TYPE string.
+ENDCLASS.
+
+CLASS Motorcycle IMPLEMENTATION.
+	METHOD constructor.
+		super -> constructor (iv_make = iv_make iv_model = iv_model).
+		engineType = iv_engineType.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		super -> displayDetails().
+		WRITE: / 'Engine Type: ', engine Type.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: vehicles TYPE TABLE OF Vehicle,
+			car TYPE REF TO Car,
+			motorcycle TYPE REF TO Motorcycle.
+CREATE OBJECT car EXPORTING iv_make = 'Toyota' iv_model = 'Camry' iv_seats = 5.
+CREATE OBJECT motorcycle EXPORTING iv_make = 'Honda' iv_model = 'CBR' iv_engineType = 'Sport'.
+
+vehicles = VALUE #((car) (motorcycle)).
+
+LOOP AT vehicle INTO DATA (vehicle).
+	vehicle -> displayDetails().
+ENDLOOP.

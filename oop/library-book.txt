@@ -1,0 +1,56 @@
+Class called 'LibraryBook' with attributes 'ttile', 'author' and 'available'. Include methods to check out a book, return a book and display book details.
+
+CLASS LibraryBook DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_title TYPE string iv_author TYPE string, 
+			checkOut,
+			returnBook,
+			displayDetails.
+		PRIVATE SECTION.
+			DATA:
+				title TYPE string,
+				author TYPE string,
+				available TYPE abap_bool.
+ENDCLASS.
+
+CLASS LibraryBook IMPLEMENTATION.
+	METHOD constructor.
+		title = iv_title.
+		author = iv_author.
+		available = abap_true.
+	ENDMETHOD.
+	
+	METHOD checkOut.
+		IF available = abap_true.
+			available = abap_false.
+			WRITE: / 'Book', title, 'by', author, 'is checked out.'.
+		ELSE.
+			WRITE: / 'Book', title, 'is not available for checkout.'.
+		ENDIF.
+	ENDMETHOD.
+	
+	METHOD returnBook.
+		IF available = abap_true.
+			WRITE: / 'Book', title, 'is already available.'.
+		ELSE.
+			available = abap_true.
+			WRITE: / 'Book', title, 'is returned.'.
+		ENDIF.
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Title: ', title.
+		WRITE: / 'Author: ', author.
+		WRITE: / 'Availability: ', COND #(WHEN available = abap_true THEN 'Available' ELSE 'Not Available' ).
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: book TYPE REF TO LibraryBook.
+CREATE OBJECT book EXPORTING iv_title = 'Harry Potter and the Sorcerer' 's Stone' iv_author = 'J.K. Rowling'.
+
+book ->displayDetails().
+book->checkOut().
+book->displayDetails().
+book->returnBook().
+book->displayDetails().

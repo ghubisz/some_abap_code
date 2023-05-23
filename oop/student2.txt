@@ -1,0 +1,53 @@
+Class called 'Student' with attributes 'name', 'age' and 'subjects'. Include methods to add subjects, calculate the average grade and display the student details.
+
+CLASS Student DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor IMPORTING iv_name TYPE string iv_age TYPE i,
+			addSubject IMPORTING iv_subject TYPE string iv_grade TYPE i,
+			calculateAverageGrade RETURNING VALUE (rv_average) TYPE f,
+			displayDetails.
+	PRIVATE SECTION.
+		DATA:
+			name TYPE string,
+			age TYPE i,
+			subjects TYPE TABLE OF string,
+			grades TYPE TABLE OF i.
+ENDCLASS.
+
+CLASS Student IMPLEMENTATION.
+	METHOD constructor.
+		name = iv_name.
+		age = iv_age.
+	ENDMETHOD.
+	
+	METHOD addSubject.
+		APPEND iv_subject TO subjects.
+		APPEND iv_grade TO grades.
+	ENDMETHOD.
+	
+	METHOD calculateAverageGrade.
+		DATA(totalGrades) = REDUCE i(INIT sum = 0 FOR grade IN grades NEXT sum = sum + grade).
+		rv_average = CONV #(totalGrades / LINES(grades)).
+	ENDMETHOD.
+	
+	METHOD displayDetails.
+		WRITE: / 'Name: ', name.
+		WRITE: / 'Age: ', age.
+		WRITE: / 'Subjects: Grades: '.
+		LOOP AT subjects INTO DATA(subjects) INDEX DATA(index).
+			WRITE: / subject, grades[index].
+		ENDLOOP.
+	ENDMETHOD.
+ENDCLASS.
+
+DATA: student TYPE REF TO Student.
+CREATE OBJECT student EXPORTING iv_name = 'John Doe' iv_age = 20.
+
+student -> addSubject(iv_subject = 'Math' iv_grade = 90).
+student -> addSubject (iv_subject = 'English' iv_grade = 80).
+student -> addSubject (iv_subject = 'Science' iv_grade = 95).
+
+student -> displayDetails().
+DATA(averageGrade) = student -> calculateAverageGrade().
+WRITE: / 'Average Grade: ', averageGrade.

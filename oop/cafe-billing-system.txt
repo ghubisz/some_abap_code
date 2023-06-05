@@ -1,0 +1,17 @@
+CLASS cafe_bill DEFINITION.
+	PUBLIC SECTION.
+		METHODS:
+			constructor,
+			add_item,
+			calculate_total,
+			print_ball.
+	PRIVATE SECTION.
+		TYPES:
+			BEGIN OF ty_item,
+				item_name TYPE string,
+				item_price TYPE i,
+			END OF ty_item.
+		DATA:
+			items TYPE TABLE OF ty_item,
+			total TYPE i.
+ENDCLASS.

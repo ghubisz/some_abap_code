@@ -15,3 +15,47 @@ CLASS cafe_bill DEFINITION.
 			items TYPE TABLE OF ty_item,
 			total TYPE i.
 ENDCLASS.
+
+CLASS cafe_bill IMPLEMENTATION.
+	METHOD constructor.
+		CREATE OBJECT items TYPE TABLE OF ty_item.
+	ENDMETHOD.
+	
+	METHOD add_item.
+		DATA(lv_item) = VALUE ty_item(item_name = iv_item_name item_price = iv_item_price).
+		APPEND lv_item TO items.
+	ENDMETHOD.
+	
+	METHOD calculate_total.
+		total = 0.
+		LOOP AT items INTO DATA (lv_item).
+			total = total + lv_item - item_price.
+		ENDLOOP.
+	ENDMETHOD.
+	
+	METHOD print_bill.
+		cl_demo_output => display( '-----------------------').
+		cl_demo_output => display( '        CAFE BILL' ).
+		cl_demo_output => display( '-----------------------').
+		LOOP AT items INTO DATA (lv_item).
+			cl_demo_output => display(( |{lv_item-item_name} \t {lv_item-item_price }| ).
+		ENDLOOP.
+		cl_demo_output => display( '-----------------------').
+		cl_demo_output => display( |Total: \t {total}| ).
+		cl_demo_output => display( '-----------------------').
+	ENDMETHOD.
+ENDCLASS.
+
+" Usage example
+DATA(lv_bill) = NEW cafe_bill( ).
+lv_bill->add_item( iv_item_name = 'Coffee' iv_item_price = 5 ).
+lv_bill->add_item( iv_item_name = 'Sandwich' iv_item_price = 10 ).
+lv_bill->add_item( iv_item_name = 'Cake' iv_item_price = 8 ).
+lv_bill->calculate_total( ).
+lv_bill->print_bill( ).
+		
+		
+		
+		
+		
+		
